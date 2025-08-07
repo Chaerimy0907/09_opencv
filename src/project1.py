@@ -23,6 +23,12 @@ for dir in dirs:
     name, id = dir.split('_')
     names[int(id)] = name
 
+# 출석 기록용 파일 생성
+if not os.path.exists(attendance_file):
+    with open(attendance_file, 'w', newline = '') as f:
+        writer = csv.writer(f)
+        writer.writerow(['이름', '출석시간'])
+
 # 카메라 캡처 장치 준비 
 cap = cv2.VideoCapture(0)
 while cap.isOpened():
