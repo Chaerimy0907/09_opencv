@@ -6,6 +6,8 @@ from datetime import datetime
 # 변수 설정
 base_dir = '../faces'
 min_accuracy = 85
+attendance_file = '출석.csv'
+attend = set()   # 출석한 사람들 기록
 
 # LBP 얼굴 인식기 및 케스케이드 얼굴 검출기 생성 및 훈련 모델 읽기
 face_classifier = cv2.CascadeClassifier(\
