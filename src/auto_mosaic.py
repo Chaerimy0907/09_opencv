@@ -11,6 +11,7 @@ face_cascade = cv2.CascadeClassifier('../data/haarcascade_frontalface_default.xm
 
 # 카메라 캡쳐 활성화
 cap = cv2.VideoCapture(0)
+
 while cap.isOpened():    
     ret, frame = cap.read()  # 프레임 읽기
     if ret:
@@ -22,9 +23,13 @@ while cap.isOpened():
         if len(faces) == 1:
             (x,y,w,h) = faces[0]
             # 얼굴 영역 표시
-            cv2.rectangle(frame, (x,y), (x+w, y+h), (0,255,0),1)
-           
-        cv2.imshow('face detect', img)
+            #cv2.rectangle(frame, (x,y), (x+w, y+h), (0,255,0),1)
+            roi = img[y:y+h, x:x+w]
+            roi = cv2.resize(roi, (w//rate, h//rate))
+
+            roi = cv2.resize(roi, (w,h), interpolation=cv2.INTER_AREA)
+            img[y:y+h, x:x+w] = roi
+            cv2.imshow('Face Mosaic', img)
     else:
         break
     if cv2.waitKey(5) == 27:
