@@ -1,6 +1,7 @@
 data/*
 faces/*
 src/*.dat
+drowsiness_detection/*.dat
 
 # haarcascades .xml 다운로드 링크
 # https://github.com/opencv/opencv/tree/master/data/haarcascades
