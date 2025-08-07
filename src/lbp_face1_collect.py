@@ -26,7 +26,8 @@ while cap.isOpened():
         img = frame.copy()
         gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
         # 얼굴 검출
-        faces = face_classifier.detectMultiScale(gray, 1.3, 5)
+        #faces = face_classifier.detectMultiScale(gray, 1.3, 5)
+        faces = face_classifier.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=6, minSize=(100,100))
         if len(faces) == 1:
             (x,y,w,h) = faces[0]
             # 얼굴 영역 표시 및 파일 저장
