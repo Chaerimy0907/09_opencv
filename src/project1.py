@@ -25,7 +25,7 @@ for dir in dirs:
 
 # 출석 기록용 파일 생성
 if not os.path.exists(attendance_file):
-    with open(attendance_file, 'w', newline = '') as f:
+    with open(attendance_file, 'w', encoding='utf-8-sig') as f:
         writer = csv.writer(f)
         writer.writerow(['이름', '출석시간'])
 
@@ -63,7 +63,7 @@ while cap.isOpened():
                     print(f'{name} 출석 완료 : {now}')
                     msg = f'{name} V'
                 else:
-                    msg = f'{name} (이미 출석함)'
+                    msg = f'{name} (Already Attendance)'
 
             else:
                 msg = 'Unknown'
