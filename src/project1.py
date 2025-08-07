@@ -7,7 +7,7 @@ from datetime import datetime
 base_dir = '../faces'
 min_accuracy = 85
 attendance_file = '출석.csv'
-attend = set()   # 출석한 사람들 기록
+attended = set()   # 출석한 사람들 기록
 
 # LBP 얼굴 인식기 및 케스케이드 얼굴 검출기 생성 및 훈련 모델 읽기
 face_classifier = cv2.CascadeClassifier(\
@@ -52,8 +52,22 @@ while cap.isOpened():
             accuracy = int( 100 * (1 -confidence/400))
             if accuracy >= min_accuracy:
                 msg =  '%s(%.0f%%)'%(names[label], accuracy)
+
+                # 이미 출석했는지 확인
+                if name not in attended:
+                    attended.add(name)
+                    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    with open(attendance_file, 'a', newline='') as f:
+                        writer = csv.writer(f)
+                        writer.writerow([name, now])
+                    print(f'{name} 출석 완료 : {now}')
+                    msg = f'{name} V'
+                else:
+                    msg = f'{name} (이미 출석함)'
+
             else:
                 msg = 'Unknown'
+
         # 사용자 이름과 정확도 결과 출력
         txt, base = cv2.getTextSize(msg, cv2.FONT_HERSHEY_PLAIN, 1, 3)
         cv2.rectangle(frame, (x,y-base-txt[1]), (x+txt[0], y+txt[1]), \
@@ -63,5 +77,6 @@ while cap.isOpened():
     cv2.imshow('Face Recognition', frame)
     if cv2.waitKey(1) == 27: #esc 
         break
+    
 cap.release()
 cv2.destroyAllWindows()     
